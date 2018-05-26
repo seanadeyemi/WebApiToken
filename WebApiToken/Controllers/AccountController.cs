@@ -16,6 +16,8 @@ using Microsoft.Owin.Security.OAuth;
 using WebApiToken.Models;
 using WebApiToken.Providers;
 using WebApiToken.Results;
+using System.Data.Entity;
+using System.Linq;
 
 namespace WebApiToken.Controllers
 {
@@ -79,6 +81,9 @@ namespace WebApiToken.Controllers
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            //var users = UserManager.Users.ToList();
+
 
             if (user == null)
             {

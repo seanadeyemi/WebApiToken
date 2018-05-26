@@ -3,64 +3,76 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <!--<link href="Content/bootstrap.min.css" rel="stylesheet" />-->
+    <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <link href="Content/bootstrap3.2/bootstrap.min.css" rel="stylesheet"  id="bootstrap-css"/>
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />    
+    
+    <link href="Content/Site.css" rel="stylesheet" />
+    <link href="Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+    <!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+    <!--<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>-->
+    <script src="Scripts/jquery-1.11.1.min.js"></script>
+    <script src="Scripts/bootstrap3.2/bootstrap.min.js"></script>
 </head>
 
 <body style="padding-top: 45px">
     
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th colspan="2">
-                                <h4>Register</h4>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                Email
-                            </td>
-                            <td>
-                                <input type="email" id="email" placeholder="Email" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td>
-                                <input type="password" id="password" placeholder="Password" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Confirm Password</td>
-                            <td>
-                                <input type="password" id="confirmPassword" placeholder="Password" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input id="bnRegister" class="btn btn-success" value="Register" type="button" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-offset-4 col-md-4">
+                <div id="error" class="alert alert-danger collapse"  >
+                    <a id="close" href="#" class="close">
+                        &times;
+                    </a>
+                    <div id="errorText"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <h2 style="color:darkgray;" class="text-center">
+                    <span>Chuks Jobs</span>
+                </h2>
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="form-login">
+                    <h4>Register</h4>
+                    <input type="text" id="email" class="form-control input-sm chat-input" placeholder="username" />
+                    <br />
+                    <input type="password" id="password" class="form-control input-sm chat-input" placeholder="password" />
+                    <br />
+                    <input type="password" id="confirmPassword" class="form-control input-sm chat-input" placeholder="confirm password" />
+                    <br />
+                    <div class="wrapper">
+                        <span class="group-btn">
+                            <input id="bnRegister" class="btn btn-primary btn-md" value="Register" type="button" />
+                        </span>
+                    </div>
+                    <div class="wrapper">- Or -</div>
+                    <div class="wrapper">
+                        <span class="group-btn">
+                            <a href="login.html" class="btn btn-success btn-md">Login<i class="fa fa-sign-in"></i></a>
+                        </span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
     
-   <div id="error" class="alert alert-danger collapse">
-       <a id="close" href="#" class="close">
-           &times;
-       </a>
-       <div id="errorText"></div>
-   </div>
+  
 
 
     <script src="Scripts/jquery-1.10.2.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
+
+    <!--<script src="Scripts/bootstrap.min.js"></script>-->
+    <script src="Scripts/sweetalert.min.js"></script>
+   
     <script type="text/javascript">
 
         $('#close').click(
@@ -82,11 +94,68 @@
                     confirmPassword: $('#confirmPassword').val()
                 },
                 success: function (response) {
-                    alert(response.responseText);
+                    swal("You have successfully registered!");
                 },
                 error: function (jqXHR)
                 {
-                    $('#errorText').text(jqXHR.responseText);
+                    var response = JSON.parse(jqXHR.responseText);
+                    var modelState = response.ModelState;
+                    var otherErrors = modelState[''];
+                    var emailErrors = modelState['model.Email'];
+                    var passwordErrors = modelState['model.Password'];
+                    var confirmPasswordErrors = modelState['model.ConfirmPassword'];
+
+
+                    var result = '<div class=\'text-center\'><strong>Oops... Please correct these:</strong></div><br />';
+
+                    if (otherErrors != null)
+                    {
+                        result += '<div class="text-center">' + otherErrors + '</div>';
+                    }
+
+                    if (emailErrors != null)
+                    {
+                        result += '<div class="text-center">Email:<br /><ul>';
+                        var count = emailErrors.length; 
+                        for (var i = 0; i < count; i++)
+                        {
+                            var line = '<li>' + emailErrors[i] + '</li>';
+                            if (emailErrors[i] != emailErrors[i - 1])
+                            {
+                                result += line;
+                            }
+                            
+                        }
+                        result += '</ul><br/>';                            
+                    
+                    }
+                    if (confirmPasswordErrors != null) {
+                        result += '<div class="text-center">Confirm Password:<br /><ul>';
+                        var count = confirmPasswordErrors.length;
+                        for (var m = 0; m < count; m++) {
+                            var line2 = '<li>' + confirmPasswordErrors[m] + '</li>';
+                            if (confirmPasswordErrors[m] != confirmPasswordErrors[m - 1]) {
+                                result += line2;
+                            }
+                        }
+                        result += '</ul><br/>';
+
+                    }
+                    if (passwordErrors != null) {
+                        result += 'Password:<br /><ul>';
+                        var count2 = passwordErrors.length;
+                        for (var j = 0; j < count2; j++) {
+                            var line3 = '<li>' + passwordErrors[j] + '</li>';
+                            if (passwordErrors[j] != passwordErrors[j - 1]) {
+                                result += line3;
+                            }
+                        }
+                        result += '</ul></div><br/>';
+
+                    }
+
+                    $('#errorTitle').text('Errors');
+                    $('#errorText').html(result);
                     $('#error').show('fade');
                 }
 

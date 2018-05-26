@@ -3,59 +3,97 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+  <!--  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+
+    <!--<link href="Content/bootstrap.css" rel="stylesheet" />-->
+    <link href="Content/bootstrap3.2/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />    
+   <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">-->
+   
+    <link href="Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+    <!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+    <script src="Scripts/jquery-1.11.1.min.js"></script>
+    <script src="Scripts/bootstrap3.2/bootstrap.min.js"></script>
+    <!--<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>-->
+
+    
+    <link href="Content/Site.css" rel="stylesheet" />
+    <link href="Content/sweetalert/animate.css" rel="stylesheet" />
 </head>
 
 <body style="padding-top: 45px">
-
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th colspan="2">
-                                <h4>Login</h4>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                User name
-                            </td>
-                            <td>
-                                <input type="email" id="username" placeholder="Email" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td>
-                                <input type="password" id="password" placeholder="Password" />
-                            </td>
-                        </tr>
-                   
-                        <tr>
-                            <td colspan="2">
-                                <input id="bnLogin" class="btn btn-success" value="Login" type="button" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div id="error" class="alert alert-danger alert-dismissable collapse text-center" role="alert">
+                    <a id="close" href="#" class="close">
+                &times;
+            </a>
+                    <div id="errorTitle"></div>
+                    <div id="errorText"></div>
+                </div>
             </div>
+        </div>
+       
+       
+    </div>
+    <div class="container">
+        <div class="row">
+            <div id="logo" class="col-md-offset-4 col-md-4 text-center animated shake">
+                 ☂
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <h2 style="color:darkgray;" class="text-center animated bounceInDown">
+                    <span>Chuks Jobs</span>
+                </h2>
+                <h4 class="text-center animated fadeIn" id="depressed">
+                    <span>
+                        Are you depressed 'Cos of unemployment?
+                    </span>
+                    
+                </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="form-login animated fadeIn" id="loginForm">
+                    <h4>Login</h4>
+                    <input type="text" id="username" class="form-control input-sm chat-input" placeholder="username" />
+                    <br />
+                    <input type="password" id="password" class="form-control input-sm chat-input" placeholder="password" />
+                    <br />
+                   
+                    <div class="wrapper">
+                        <span class="group-btn">
+                            <input id="bnLogin" class="btn btn-primary btn-md" value="Login" type="button" />
+                        </span>
+                    </div>
+                    <div class="wrapper">- Or -</div>
+                    <div class="wrapper">
+                        <span class="group-btn">
+                            <a href="register.html" class="btn btn-success btn-md" >Register<i class="fa fa-register"></i></a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            
+            
         </div>
     </div>
 
-    <div id="error" class="alert alert-danger collapse">
-        <a id="close" href="#" class="close">
-            &times;
-        </a>
-        <div id="errorText"></div>
-    </div>
+    <img id="loading" src="Content/images/ajax-loader.gif" style="display:none;" />
+
+   
 
 
-    <script src="Scripts/jquery-1.10.2.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
+    <!--<script src="Scripts/jquery-1.10.2.min.js"></script>-->
+    <script src="Scripts/jquery-1.11.1.min.js"></script>
+    <script src="Scripts/bootstrap3.2/bootstrap.min.js"></script>
+    <!--<script src="Scripts/bootstrap.min.js"></script>-->
     <script type="text/javascript">
 
         $('#close').click(
@@ -65,6 +103,25 @@
                 $('#error').hide('fade');
             }
         );
+
+        $.ajaxSetup({
+            beforeSend: function () {
+                $('#loading').show();
+            },
+            complete: function () {
+                $('#loading').hide();
+            }
+        });
+
+
+        $('#depressed').click(
+            function () {
+                $(this).addClass('animated hinge').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                    $(this).removeClass('animated hinge');
+                });
+            }
+        );
+
 
 
         $('#bnLogin').click(function () {
@@ -85,7 +142,9 @@
                 },
                 error: function (jqXHR)
                 {
-                    $('#errorText').text(jqXHR.responseText);
+                    var response = JSON.parse(jqXHR.responseText);
+                    $('#errorTitle').text(response['error']);
+                    $('#errorText').text(response['error_description']);
                     $('#error').show('fade');
                 }
 

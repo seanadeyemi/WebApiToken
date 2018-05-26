@@ -1,17 +1,75 @@
-﻿body {
-    padding-top: 50px;
+﻿@import url(http://fonts.googleapis.com/css?family=Roboto:400);
+
+body {
+    -webkit-font-smoothing: antialiased;
+    font: normal 14px Roboto,arial,sans-serif;
+    /*height: 700px;*/
+    /*background-size: auto auto;*/
+    /*-moz-background-size: 100% 100%;*/
+    /*background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+}
+
+.container {
+    padding: 25px;
+    position: fixed;
+}
+
+.form-login {
+    background-color: #EDEDED;
+    /*padding-top: 10px;
     padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;*/
+    border-radius: 15px;
+    border-color: #d2d2d2;
+    border-width: 5px;
+    box-shadow: 0 1px 0 #cfcfcf;
+
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+h4 {
+    border: 0 solid #fff;
+    border-bottom-width: 1px;
+    padding-bottom: 10px;
+    text-align: center;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.form-control {
+    border-radius: 10px;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.alert{
+ 
+  
+}
+
+#errorTitle{
+    text-decoration:underline;
+}
+
+
+img#loading {
+    display: none;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+}
+
+h4.animated {
+    animation-delay: 1s;
+    animation-duration: 2.5s;
+    /*animation-iteration-count: infinite;*/
+}
+#loginForm.animated{
+animation-delay: 1.5s;
+}
+#logo{
+    font-size: 70px;
 }
